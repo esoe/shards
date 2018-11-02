@@ -20,6 +20,6 @@ public class Core
 {
     public static void main( String[] args )
     {
-        System.out.println( "запущен метод main класса Core, проекта shards  ... " );
+        System.out.println( "запущен метод main класса Core проекта shards  ... " );
     }
 }
