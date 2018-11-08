@@ -28,10 +28,11 @@
       <groupId>esoe</groupId>
       <artifactId>data</artifactId>
       <version>0.1-SNAPSHOT</version>
-      <!--
-      <data-0.1-20181103.200355-1.jar>
+    </dependency>
+    <dependency>
+      <groupId>esoe</groupId>
+      <artifactId>loger</artifactId>
       <version>0.1-SNAPSHOT</version>
-      -->
     </dependency>
   </dependencies>
 

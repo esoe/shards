@@ -1,29 +1,27 @@
 package esoe;
 
-//import base.*;
-import esoe.model.*;
-import esoe.base.*;
+import java.util.ArrayList;
 
-/**
- * Core. является основным классом, осуществляющим развертывание, обновление и запуск
- * клиентской части программы.
- * Основные блоки программы:
- * 1. (ui) Слой пользователя. Графический пользовательский интерфейс.
- * 2. (secure) Слой обеспечения безопасности данных. Авторизация, ограничение доступа пользователей.
- * 3. (base) Слой обеспечения доступа к данным. Интерфейс работы с базой данных.
- * 4. (model)Слой обеспечения интерпретации данных (база-модель-пользоваатель). Модель данных.
- * 5. (shards-main)Целевой слой. Модель системы, для реализации которой программа содается.
- * .........................................................................................
- *
- * 6. (log)Логирование - действий пользователей, методов выполняемых программой.
- * 7. (mind)Аналитика работы программы, поведения пользователей.
- * 8. (news)Новостная лента по развитию программы, развитию каждого проекта.
- *
- */
-public class Core
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "запущен метод main класса Core проекта shards  ... " );
+public class Core {
+    private Shard shard = new Shard();//содержит id, name ядра, а также ссылку на родительское ядро
+    private ArrayList<ModelCore> sister;//список сестричек, атрибутов родительского ядра
+    private ArrayList<ModelCore> attribute = new ArrayList();//список атрибутов
+
+    //создание проекта
+    public Core(){ setDefaultCore(); }
+    private void setDefaultCore(){
+        this.shard.setID(Identifier.getNext());
+        //название проекта должно браться с сервера из перечня проектов
+        this.shard.setName("unnamed project");
+        //с нулевым родителем походу придется постоянно проверять в будущем, не нулевой ли он.
+        this.shard.setParent(null);
+        //атрибуты, создаваемые по умолчанию
+        this.attribute.add(new ModelCore("discription", this.shard.getParent()));
+        //создаем модель "unnamed project", добавляем запись о ядре
+        //список core является списком атрибутов родителя, в него добавляются сестрички текущего core
+        sister = new ArrayList<>();
+        this.sister.add(new ModelCore(this.shard.getName(), this.shard.getParent()));
     }
+
+
 }
