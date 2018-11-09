@@ -19,17 +19,20 @@ public class WidgetCore extends JPanel {
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
     public JScrollPane panelScrollShards;
-    public Core core = new Core();//дали объект, который виджет будет отображать или формировать.
+    public Core core;
 
     public WidgetCore(){
         setLayout(layWidget);
+        initCore();
         initPaneControls();
         initPaneShards();
 
     }
 
     public void initCore(){
-        //
+        core = new Core();//запустили пустое ядро
+        tableShards.setModel(core.getShards());
+
     }
     public void initPaneControls(){
         paneControls.setBackground(Color.blue);
@@ -51,7 +54,15 @@ public class WidgetCore extends JPanel {
         });
         paneControls.add(delAttr);
 
-        JButton goParent = new JButton("GO");
+        JButton editCore = new JButton("editCore");
+        editCore.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Нажата кнопка editCore");
+            }
+        });
+        paneControls.add(editCore);
+
+        JButton goParent = new JButton("GO to parent");
         goParent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Нажата кнопка goParent");
@@ -66,7 +77,7 @@ public class WidgetCore extends JPanel {
     public void initPaneShards(){
         paneShards.setBackground(Color.blue);
         paneShards.setLayout(layPaneShards);
-        tableShards.setModel(new ModelCore());//нужно передавать можель осколка по названию или id
+        //передаю реестр, надо же получить список shards
         panelScrollShards = new JScrollPane(tableShards);
         paneShards.add(panelScrollShards, 0);
         this.add(paneShards);
@@ -74,7 +85,7 @@ public class WidgetCore extends JPanel {
     }
 
     public void initFrame() {
-        tmpFrame = new JFrame("WidgetCore");
+        tmpFrame = new JFrame("Core " + core.getCard().getId() + ": " + core.getCard().getName());
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
         tmpFrame.setDefaultCloseOperation(3);

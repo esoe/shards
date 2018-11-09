@@ -3,7 +3,7 @@ package esoe;
 import javax.swing.table.AbstractTableModel;
 
 public class ModelCore extends AbstractTableModel {
-    private String[] header = {"id", "name", "parent"};
+    private String[] header = {"id", "shards", "parent"};
     private Object[][] data;
 
     //если при создании модели указывать тип модели, то не нужны модели на

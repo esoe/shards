@@ -16,16 +16,21 @@ public class WidgetReestr extends JPanel{
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
     public JScrollPane panelScrollShards;
+    Core core;
+    ReestrListener listenR;
 
     public WidgetReestr(){
         setLayout(layWidget);
+        initCore();
         initPaneControls();
         initPaneShards();
 
     }
 
     public void initCore(){
-        //
+        core = new Core(Core.getDefaultCard());
+        listenR = new ReestrListener(tableShards);
+        Core.getReestr().addTableModelListener(listenR);
     }
     public void initPaneControls(){
         paneControls.setBackground(Color.blue);
