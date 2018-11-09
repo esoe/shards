@@ -3,25 +3,34 @@ package esoe;
 import java.util.ArrayList;
 
 public class Core {
-    private Shard shard = new Shard();//содержит id, name ядра, а также ссылку на родительское ядро
-    private ArrayList<ModelCore> sister;//список сестричек, атрибутов родительского ядра
-    private ArrayList<ModelCore> attribute = new ArrayList();//список атрибутов
+    private Card card = new Card();//содержит id, name ядра, а также ссылку на родительское ядро
+    private ArrayList<ModelCore> shards = new ArrayList();//список атрибутов (таблиц по каждому осколку) ядра
+    private static ModelCore reestr = new ModelCore();//реестр всех карточек
 
     //создание проекта
-    public Core(){ setDefaultCore(); }
+    public Core(){  }
     private void setDefaultCore(){
-        this.shard.setID(Identifier.getNext());
+        card.setID(Identifier.getNext());
         //название проекта должно браться с сервера из перечня проектов
-        this.shard.setName("unnamed project");
+        card.setName("unnamed project");
         //с нулевым родителем походу придется постоянно проверять в будущем, не нулевой ли он.
-        this.shard.setParent(null);
-        //атрибуты, создаваемые по умолчанию
-        this.attribute.add(new ModelCore("discription", this.shard.getParent()));
-        //создаем модель "unnamed project", добавляем запись о ядре
-        //список core является списком атрибутов родителя, в него добавляются сестрички текущего core
-        sister = new ArrayList<>();
-        this.sister.add(new ModelCore(this.shard.getName(), this.shard.getParent()));
+        card.setParent(null);
+        //добавляем карточку "unnamed project" в reestr
+        Core.reestr.add(card);
+        //добавляем осколок "discription" в "unnamed project"
+        this.shards.add(new ModelCore("discription", this.card.getParent()));
     }
-
-
+    public Card getCard(){
+        return card;
+    }
+    public ArrayList<ModelCore> getShards(){
+        return shards;
+    }
+    public void addShard(String name){
+        ModelCore mc = new ModelCore(name, getCard());
+        getShards().add(mc);
+    }
+    public static ModelCore getReestr(){
+        return reestr;
+    }
 }

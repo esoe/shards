@@ -18,33 +18,34 @@ import java.util.ArrayList;
  * 8. (news)Новостная лента по развитию программы, развитию каждого проекта.
  *
  */
-public class Shard
+public class Card
 {
-    private String name; //наименование компонента.
-    // Компонент может быть сформирован только когда установлено его название.
     private int id; //идентификационный номер компонента
-    //private String discription;//это новый объект Shard - атрибут, который вместо названия содержит описание
-    private Shard parent; //компонент - от которого появилось ядро, родитель
-    //private ArrayList<Shard> attribute;//список атрибутов ядра
-    /**
-     * идентификация вершин графа
-     */
+    private String name; //наименование компонента.
+    private Card parent; //компонент - от которого появилось ядро, родитель
 
-    public Shard(){}
-    public Shard(String name, Shard parent){
+    public Card(){}
+    public Card(String name, Card parent){
         setName(name);
         setID(Identifier.getNext());
         setParent(parent);
     }
-    public void setName(String name){ this.name = name; }
-    public String getName(){ return this.name; }
-    public void setID(int id){ this.id = id; }
-    public int getId(){ return this.id; }
-    public void setParent(Shard parent){ this.parent = parent; }
-    public Shard getParent(){ return this.parent; }
-
-    public static void main( String[] args )
-    {
-        System.out.println( "запущен метод main класса Shard проекта shards  ... " );
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public void setID(int id){
+        this.id = id;
+    }
+    public int getId(){
+        return this.id;
+    }
+    public void setParent(Card parent){
+        this.parent = parent;
+    }
+    public Card getParent(){
+        return this.parent;
     }
 }

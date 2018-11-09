@@ -11,40 +11,77 @@ import java.awt.event.ActionListener;
 public class WidgetCore extends JPanel {
     public JFrame tmpFrame;
     Container lf;
-    BorderLayout bl = new BorderLayout();
-    GridLayout gl = new GridLayout();
-    public JPanel panelText = new JPanel();
-    public JTextArea ta = new JTextArea();
-    public JScrollPane panelScroll;
+    GridLayout layFrame = new GridLayout();
+    GridLayout layWidget = new GridLayout(1, 2);
+    GridLayout layPaneShards = new GridLayout(1, 1);
+    GridLayout layPaneControls = new GridLayout(6, 1);
+    public JPanel paneControls = new JPanel();
+    public JPanel paneShards = new JPanel();
+    public JTable tableShards = new JTable();
+    public JScrollPane panelScrollShards;
+    public Core core = new Core();//дали объект, который виджет будет отображать или формировать.
 
     public WidgetCore(){
-        this.panelScroll = new JScrollPane(this.ta);
-        this.setLayout(this.bl);
-        this.initPanelText();
-        this.setVisible(true);
+        setLayout(layWidget);
+        initPaneControls();
+        initPaneShards();
+
     }
 
     public void initCore(){
         //
     }
+    public void initPaneControls(){
+        paneControls.setBackground(Color.blue);
+        paneControls.setLayout(layPaneControls);
 
-    public void initFrame() {
-        this.tmpFrame = new JFrame("WidgetCore");
-        this.lf = this.tmpFrame.getContentPane();
-        this.tmpFrame.setSize(450, 300);
-        this.tmpFrame.setDefaultCloseOperation(3);
-        this.lf.setBackground(Color.white);
-        this.tmpFrame.setLayout(this.gl);
-        this.tmpFrame.setVisible(true);
-        this.tmpFrame.add(this);
+        JButton addAttr = new JButton("Add");
+        addAttr.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Нажата кнопка addAttr");
+            }
+        });
+        paneControls.add(addAttr);
+
+        JButton delAttr = new JButton("Dell");
+        delAttr.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Нажата кнопка delAttr");
+            }
+        });
+        paneControls.add(delAttr);
+
+        JButton goParent = new JButton("GO");
+        goParent.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Нажата кнопка goParent");
+            }
+        });
+        paneControls.add(goParent);
+
+        this.add(paneControls);
+
+
+    }
+    public void initPaneShards(){
+        paneShards.setBackground(Color.blue);
+        paneShards.setLayout(layPaneShards);
+        tableShards.setModel(new ModelCore());//нужно передавать можель осколка по названию или id
+        panelScrollShards = new JScrollPane(tableShards);
+        paneShards.add(panelScrollShards, 0);
+        this.add(paneShards);
+
     }
 
-    public void initPanelText() {
-        this.panelText.setBackground(Color.blue);
-        this.panelText.setLayout(this.gl);
-        this.panelText.add(this.panelScroll, 0);
-        BorderLayout var10002 = this.bl;
-        this.add(this.panelText, "Center");
+    public void initFrame() {
+        tmpFrame = new JFrame("WidgetCore");
+        lf = tmpFrame.getContentPane();
+        tmpFrame.setSize(450, 300);
+        tmpFrame.setDefaultCloseOperation(3);
+        lf.setBackground(Color.white);
+        tmpFrame.setLayout(layFrame);
+        tmpFrame.setVisible(true);
+        tmpFrame.add(this);
     }
 
     public static void main( String[] args )
