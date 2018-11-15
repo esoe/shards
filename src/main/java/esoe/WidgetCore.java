@@ -14,7 +14,7 @@ public class WidgetCore extends JPanel {
     GridLayout layFrame = new GridLayout();
     GridLayout layWidget = new GridLayout(1, 2);
     GridLayout layPaneShards = new GridLayout(1, 1);
-    GridLayout layPaneControls = new GridLayout(6, 1);
+    GridLayout layPaneControls = new GridLayout(4, 1);
     public JPanel paneControls = new JPanel();
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
@@ -28,12 +28,21 @@ public class WidgetCore extends JPanel {
         initPaneShards();
 
     }
-
+    public WidgetCore(Core core){
+        setLayout(layWidget);
+        initCore(core);
+        initPaneControls();
+        initPaneShards();
+    }
     public void initCore(){
         core = new Core();//запустили пустое ядро
         tableShards.setModel(core.getShards());
 
     }
+    public void initCore(Core core) {
+        tableShards.setModel(core.getShards());
+    }
+
     public void initPaneControls(){
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
@@ -42,6 +51,12 @@ public class WidgetCore extends JPanel {
         addAttr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Нажата кнопка addAttr");
+                //добавление осколка к ядру
+                String name = JOptionPane.showInputDialog("наименование осколка");
+                new WidgetCore(new  Core(new Card(name, core.getCard()))).initFrame();
+                core.addShard(name);
+
+
             }
         });
         paneControls.add(addAttr);
@@ -71,8 +86,6 @@ public class WidgetCore extends JPanel {
         paneControls.add(goParent);
 
         this.add(paneControls);
-
-
     }
     public void initPaneShards(){
         paneShards.setBackground(Color.blue);
@@ -85,7 +98,7 @@ public class WidgetCore extends JPanel {
     }
 
     public void initFrame() {
-        tmpFrame = new JFrame("Core " + core.getCard().getId() + ": " + core.getCard().getName());
+        tmpFrame = new JFrame("Core" +  ": " );
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
         tmpFrame.setDefaultCloseOperation(3);
@@ -99,6 +112,7 @@ public class WidgetCore extends JPanel {
     {
         System.out.println( "... запущен метод main класса WidgetCore проекта shards  ... " );
         new WidgetCore().initFrame();
+        new WidgetReestr().initFrame();
     }
 
 

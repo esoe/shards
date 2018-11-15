@@ -18,7 +18,7 @@ public class ModelCore extends AbstractTableModel {
             data = new Object[1][3];
             data[0][0] = card.getId();
             data[0][1] = card.getName();
-            data[0][2] = card.getParent();
+            data[0][2] = card.getParent().getId();
         }else {
             //создаем объект d с дополнительной строкой
             Object[][] d = new Object[getRowCount()+1][getColumnCount()];
@@ -35,7 +35,7 @@ public class ModelCore extends AbstractTableModel {
             //дописываем в объект d новую строку card
             d[getRowCount()][0] = card.getId();
             d[getRowCount()][1] = card.getName();
-            d[getRowCount()][2] = card.getParent();
+            d[getRowCount()][2] = card.getParent().getId();
             //устанавливаем ссылку объекта data на новый объект d
             data = d;//должно поидее работать так
         }

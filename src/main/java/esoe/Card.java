@@ -46,6 +46,13 @@ public class Card
         this.parent = parent;
     }
     public Card getParent(){
+        Card c = new Card();
+        if (parent == null){
+            c.setID(0);
+            c.setName(getName() + " является корневым ядром");
+            c.setParent(null);
+            this.parent = c;
+        }
         return this.parent;
     }
 }

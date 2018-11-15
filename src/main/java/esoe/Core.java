@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Core {
     private Card card;//содержит id, name ядра, а также ссылку на родительское ядро
-    private ModelCore shards = new ModelCore();//список атрибутов (таблиц по каждому осколку) ядра
+    private ModelCore shards;//список атрибутов (таблиц по каждому осколку) ядра
     private static ModelCore reestr = new ModelCore();//реестр всех карточек
 
 
@@ -43,7 +43,9 @@ public class Core {
         return shards;
     }
     public void addShard(String name){
-        shards.add(new Card(name, card));
+        Card c = new Card(name, card);
+        shards.add(c);
+        //new Core(c);
     }
     public static ModelCore getReestr(){
         return reestr;

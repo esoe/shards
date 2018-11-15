@@ -16,7 +16,7 @@ public class WidgetReestr extends JPanel{
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
     public JScrollPane panelScrollShards;
-    Core core;
+    //Core core;
     ReestrListener listenR;
 
     public WidgetReestr(){
@@ -28,7 +28,6 @@ public class WidgetReestr extends JPanel{
     }
 
     public void initCore(){
-        core = new Core(Core.getDefaultCard());
         listenR = new ReestrListener(tableShards);
         Core.getReestr().addTableModelListener(listenR);
     }
