@@ -1,4 +1,4 @@
-package esoe;
+package esoe.neway;
 
 /**
  * идентификация ядрышек.
@@ -7,8 +7,6 @@ package esoe;
  */
 public class Identifier {
     private static int index = 0; //порядковый номер объекта, сквозной
-    public Identifier(){
-    }
     public static int getNext(){
         index++;
         return index;

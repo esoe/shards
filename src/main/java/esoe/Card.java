@@ -1,6 +1,6 @@
 package esoe;
 
-import java.util.ArrayList;
+import esoe.neway.Identifier;
 
 /**
  * Shard. является основным классом, осуществляющим развертывание, обновление и запуск

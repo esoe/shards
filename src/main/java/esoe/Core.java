@@ -1,7 +1,8 @@
 package esoe;
 
+import esoe.neway.Identifier;
+
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class Core {
     private Card card;//содержит id, name ядра, а также ссылку на родительское ядро
