@@ -1,4 +1,4 @@
-package esoe.neway;
+package esoe;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class ModelShards extends AbstractTableModel {
         //переписываем список в массив
         int i = 0;
         while (i < shards.size()){
-            data[i][0] = shards.get(i);
+            data[i][0] = shards.get(i).getName();
             i++;
         }
     }

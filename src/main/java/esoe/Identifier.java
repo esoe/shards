@@ -1,4 +1,4 @@
-package esoe.neway;
+package esoe;
 
 /**
  * идентификация ядрышек.

@@ -1,54 +1,32 @@
 package esoe;
 
-import esoe.neway.Identifier;
-
 import javax.swing.*;
 
 public class Core {
-    private Card card;//содержит id, name ядра, а также ссылку на родительское ядро
-    private ModelCore shards;//список атрибутов (таблиц по каждому осколку) ядра
-    private static ModelCore reestr = new ModelCore();//реестр всех карточек
-
+    private Card card;
+    private Deck shards;//перечень осколков ядра
+    private static Deck deck;//реестр всех карт - колода
 
     public Core(){
         Card c = new Card();
         c.setID(Identifier.getNext());
         c.setName(JOptionPane.showInputDialog("Назовите проект!"));
         card = c;
-        shards = new ModelCore();
-        reestr.add(card);
+        shards = new Deck();
+        deck.add(card);
     }
-    //создание проекта
     public Core(Card card){
         this.card = card;
-        this.shards = new ModelCore();
-        reestr.add(card);
-    }
-    public static Card getDefaultCard(){
-        Card c = new Card();
-        c.setID(Identifier.getNext());
-        //название проекта должно браться с сервера из перечня проектов
-        c.setName("unnamed project");
-        //с нулевым родителем походу придется постоянно проверять в будущем, не нулевой ли он.
-        c.setParent(null);
-        //добавляем карточку "unnamed project" в reestr
-        //Core.reestr.add(card);
-        //добавляем осколок "discription" в "unnamed project"
-        //shards.add(new ModelCore("discription", card.getParent()));
-        return c;
+        this.shards = new Deck();
+        deck.add(card);
     }
     public Card getCard(){
         return card;
     }
-    public ModelCore getShards(){
+    public Deck getShards(){
         return shards;
     }
-    public void addShard(String name){
-        Card c = new Card(name, card);
-        shards.add(c);
-        //new Core(c);
-    }
-    public static ModelCore getReestr(){
-        return reestr;
+    public Deck getDeck(){
+        return deck;
     }
 }
