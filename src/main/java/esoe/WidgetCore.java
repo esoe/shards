@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 /**
  * панелька для отображения данных Shard
+ *
  */
 public class WidgetCore extends JPanel {
     public JFrame tmpFrame;

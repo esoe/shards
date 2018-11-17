@@ -1,7 +1,5 @@
 package esoe;
 
-import esoe.neway.Identifier;
-
 import javax.swing.*;
 
 public class Core {

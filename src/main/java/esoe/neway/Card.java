@@ -1,5 +1,7 @@
 package esoe.neway;
 
+import esoe.Identifier;
+
 public class Card {
     private int id;//уникальный идентификатор карточки
     private String name;//наименование карточки
