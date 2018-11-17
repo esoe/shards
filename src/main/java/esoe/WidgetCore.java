@@ -48,19 +48,18 @@ public class WidgetCore extends JPanel {
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
 
-        JButton addAttr = new JButton("Add");
-        addAttr.addActionListener(new ActionListener() {
+        JButton addShard = new JButton("Add");
+        addShard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Нажата кнопка addAttr");
+                System.out.println("Нажата кнопка addShard");
                 //добавление осколка к ядру
                 String name = JOptionPane.showInputDialog("наименование осколка");
-                new WidgetCore(new  Core(new Card(name, core.getCard()))).initFrame();
-                core.addShard(name);
-
-
+                Card c = new Card(name, core.getCard().getId());
+                core.getShards().add(c);//добавили карту к осколкам
+                Core.getDeck().add(c);//добавили карту в колоду
             }
         });
-        paneControls.add(addAttr);
+        paneControls.add(addShard);
 
         JButton delAttr = new JButton("Dell");
         delAttr.addActionListener(new ActionListener() {

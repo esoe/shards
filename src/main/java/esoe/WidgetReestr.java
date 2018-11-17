@@ -29,7 +29,7 @@ public class WidgetReestr extends JPanel{
 
     public void initCore(){
         listenR = new ReestrListener(tableShards);
-        Core.getReestr().addTableModelListener(listenR);
+        Core.getDeck().addTableModelListener(listenR);
     }
     public void initPaneControls(){
         paneControls.setBackground(Color.blue);
@@ -55,11 +55,11 @@ public class WidgetReestr extends JPanel{
     public void initPaneShards(){
         paneShards.setBackground(Color.blue);
         paneShards.setLayout(layPaneShards);
-        tableShards.setModel(Core.getReestr());//нужно передавать можель осколка по названию или id
+        tableShards.setModel(Core.getDeck());//нужно передавать можель осколка по названию или id
         //отображаем заголовки новой модели в таблице
         int i = 0;
-        while (i < Core.getReestr().getColumnCount()) {
-            tableShards.getColumnModel().getColumn(i).setHeaderValue(Core.getReestr().getHeader()[i]);
+        while (i < Core.getDeck().getColumnCount()) {
+            tableShards.getColumnModel().getColumn(i).setHeaderValue(Core.getDeck().getHeader()[i]);
             i++;
         }
         panelScrollShards = new JScrollPane(tableShards);

@@ -5,13 +5,14 @@ import javax.swing.*;
 public class Core {
     private Card card;
     private Deck shards;//перечень осколков ядра
-    private static Deck deck;//реестр всех карт - колода
+    private static Deck deck = new Deck();//реестр всех карт - колода
 
     public Core(){
         Card c = new Card();
         c.setID(Identifier.getNext());
         c.setName(JOptionPane.showInputDialog("Назовите проект!"));
         card = c;
+        System.out.println("");
         shards = new Deck();
         deck.add(card);
     }
@@ -26,7 +27,7 @@ public class Core {
     public Deck getShards(){
         return shards;
     }
-    public Deck getDeck(){
+    public static Deck getDeck(){
         return deck;
     }
 }
