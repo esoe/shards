@@ -39,17 +39,23 @@ public class DeckWidget extends JPanel{
         goShard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("... нажата кнопка goShard");
-                //считываем параметры выбранной пользователем строки
-                int id = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 0);
-                String name = (String)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 1);
-                int parent = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 2);
-                //создаем новую карту по указанным пользователем параметрам
-                Card card = new Card();
-                card.setID(id);
-                card.setName(name);
-                card.setParent(parent);
-                //открываем новый виджет ядра по новой карте
-                new CoreWidget(new Core(card)).initFrame();
+                //проверяем, что колода не пуста
+                if (tableShards.getModel().getRowCount() != 0){
+                    //считываем параметры выбранной пользователем строки
+                    int id = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 0);
+                    String name = (String)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 1);
+                    int parent = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 2);
+                    //создаем новую карту по указанным пользователем параметрам
+                    Card card = new Card();
+                    card.setID(id);
+                    card.setName(name);
+                    card.setParent(parent);
+                    //открываем новый виджет ядра по новой карте
+                    new CoreWidget(new Core(card)).initFrame();
+                }else {
+                    System.out.println("невозможно перейти к отсутствующим осколкам, создайте ядро!!");
+                }
+
             }
         });
         paneControls.add(goShard);
