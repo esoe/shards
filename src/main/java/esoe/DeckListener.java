@@ -10,12 +10,12 @@ public class DeckListener implements TableModelListener {
 
     DeckListener(JTable table) {
         this.tab = table;
-        this.model = Core.getDeck();
+        this.model = Core.deck();
     }
 
     public void tableChanged(TableModelEvent e) {
         if (e.getType() == 0) {
-            tab.setModel(Core.getDeck());
+            tab.setModel(Core.deck());
         }
 
     }

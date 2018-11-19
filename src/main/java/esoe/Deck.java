@@ -28,6 +28,10 @@ public class Deck extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
         return data[row][col];
     }
+    //
+    public String getColumnName(int col){
+        return header[col];
+    }
     //возвращает строку заголовков
     public String[] getHeader(){
         return header;
@@ -101,12 +105,12 @@ public class Deck extends AbstractTableModel {
     public void getShards( Card card){
         Deck shards = new Deck();
         int i = 0;
-        while (i < Core.getDeck().getRowCount()){
-            System.out.println(i+ " < " + Core.getDeck().getRowCount());
+        while (i < Core.deck().getRowCount()){
+            System.out.println(i+ " < " + Core.deck().getRowCount());
             //сравниваем id карты с полями parent в колоде
-            if (card.getId() == (int)Core.getDeck().getData()[i][2]){
-                shards.add(Core.getDeck().getCard((int)Core.getDeck().getData()[i][0]));
-                System.out.println("добавляем в shards .. " + Core.getDeck().getCard((int)Core.getDeck().getData()[i][0]).getName());
+            if (card.getId() == (int)Core.deck().getData()[i][2]){
+                shards.add(Core.deck().getCard((int)Core.deck().getData()[i][0]));
+                System.out.println("добавляем в shards .. " + Core.deck().getCard((int)Core.deck().getData()[i][0]).getName());
             }
             i++;
         }

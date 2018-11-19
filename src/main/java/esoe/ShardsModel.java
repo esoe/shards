@@ -3,12 +3,12 @@ package esoe;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class ModelShards extends AbstractTableModel {
+public class ShardsModel extends AbstractTableModel {
     private String[] header = {"name"};
     private Object[][] data;
 
-    public ModelShards(){}
-    public ModelShards(ArrayList<Card> shards){
+    public ShardsModel(){}
+    public ShardsModel(ArrayList<Card> shards){
         data = new Object[shards.size()][1];
         //переписываем список в массив
         int i = 0;

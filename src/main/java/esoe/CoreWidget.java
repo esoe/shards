@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
  * панелька для отображения данных Shard
  *
  */
-public class WidgetCore extends JPanel {
+public class CoreWidget extends JPanel {
     public JFrame tmpFrame;
     Container lf;
     GridLayout layFrame = new GridLayout();
@@ -22,14 +22,14 @@ public class WidgetCore extends JPanel {
     public JScrollPane panelScrollShards;
     public Core core;
 
-    public WidgetCore(){
+    public CoreWidget(){
         setLayout(layWidget);
         initCore();
         initPaneControls();
         initPaneShards();
 
     }
-    public WidgetCore(Core core){
+    public CoreWidget(Core core){
         setLayout(layWidget);
         initCore(core);
         initPaneControls();
@@ -37,11 +37,12 @@ public class WidgetCore extends JPanel {
     }
     public void initCore(){
         core = new Core();//запустили пустое ядро
-        tableShards.setModel(core.getShards());
+        tableShards.setModel(Core.shards(core.getCard()));
 
     }
     public void initCore(Core core) {
-        tableShards.setModel(core.getShards());
+        this.core = core;
+        tableShards.setModel(Core.shards(core.getCard()));
     }
 
     public void initPaneControls(){
@@ -54,12 +55,10 @@ public class WidgetCore extends JPanel {
                 System.out.println("Нажата кнопка addShard");
                 //добавление осколка к ядру
                 String name = JOptionPane.showInputDialog("наименование осколка");
+                System.out.println("осколок назван: " + name);
                 Card c = new Card(name, core.getCard().getId());
-                Core.getDeck().add(c);//добавили карту в колоду
-                core.getShards().add(c);//добавили карту к осколкам.
-                // а надо перерисовать таблицу с соколками, пересобрать из deck
-                //core.setShards(core.getCard());
-                //core.getShards().getShards(core.getCard());
+                Core.deck().add(c);//добавили карту в колоду
+                tableShards.setModel(Core.shards(core.getCard()));
 
             }
         });
@@ -105,7 +104,7 @@ public class WidgetCore extends JPanel {
         tmpFrame = new JFrame("Core" +  ": " );
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
-        tmpFrame.setDefaultCloseOperation(3);
+        tmpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         lf.setBackground(Color.white);
         tmpFrame.setLayout(layFrame);
         tmpFrame.setVisible(true);
@@ -114,8 +113,8 @@ public class WidgetCore extends JPanel {
 
     public static void main( String[] args )
     {
-        System.out.println( "... запущен метод main класса WidgetCore проекта shards  ... " );
-        new WidgetCore().initFrame();
+        System.out.println( "... запущен метод main класса CoreWidget проекта shards  ... " );
+        new CoreWidget().initFrame();
         new DeckWidget().initFrame();
     }
 

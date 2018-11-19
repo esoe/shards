@@ -28,7 +28,7 @@ public class DeckWidget extends JPanel{
 
     public void initCore(){
         listenR = new DeckListener(tableShards);
-        Core.getDeck().addTableModelListener(listenR);
+        Core.deck().addTableModelListener(listenR);
     }
     public void initPaneControls(){
         paneControls.setBackground(Color.blue);
@@ -37,30 +37,43 @@ public class DeckWidget extends JPanel{
         JButton goShard = new JButton("GO");
         goShard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Нажата кнопка goShard");
-                /**
-                 * должен открыться WidgetCore с соответствующим Core и списком Shards
-                 * надо в виджет сообщать какой core открывать или формировать.
-                 * new WidetCore(core);
-                 */
+                System.out.println("... нажата кнопка goShard");
+                Card card = new Card();
+                //в карту надо записать параметры выбранной пользователем карты
+                int id = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 0);
+                String name = (String)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 1);
+                int parent = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 2);
+                card.setID(id);
+                card.setName(name);
+                card.setParent(parent);
+                System.out.println("... выбрана строка: " + tableShards.getSelectedRow());
+                System.out.println("... id: " + id);
+                System.out.println("... name: " + name);
+                System.out.println("... parent: " + parent);
+                //передаем карту в новое ядро? надо ли?
+                Core core = new Core(card);
+                new CoreWidget(core).initFrame();
             }
         });
         paneControls.add(goShard);
 
+        //создает новое корневое ядро с нулевым родителем, новый проект.
+        JButton newShard = new JButton("NEW");
+        newShard.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("... нажата кнопка newShard");
+                new CoreWidget().initFrame();
+
+            }
+        });
+        paneControls.add(newShard);
+
         this.add(paneControls, layWidget.NORTH);
-
-
     }
     public void initPaneShards(){
         paneShards.setBackground(Color.blue);
         paneShards.setLayout(layPaneShards);
-        tableShards.setModel(Core.getDeck());//нужно передавать можель осколка по названию или id
-        //отображаем заголовки новой модели в таблице
-        int i = 0;
-        while (i < Core.getDeck().getColumnCount()) {
-            tableShards.getColumnModel().getColumn(i).setHeaderValue(Core.getDeck().getHeader()[i]);
-            i++;
-        }
+        tableShards.setModel(Core.deck());//нужно передавать можель осколка по названию или id
         panelScrollShards = new JScrollPane(tableShards);
         paneShards.add(panelScrollShards, 0);
         this.add(paneShards, layWidget.CENTER);
@@ -80,7 +93,7 @@ public class DeckWidget extends JPanel{
 
     public static void main( String[] args )
     {
-        System.out.println( "... запущен метод main класса DeckWidget проекта shards  ... " );
+        System.out.println( "... запущен метод main класса DeckWidget проекта shards ..." );
         new DeckWidget().initFrame();
     }
 

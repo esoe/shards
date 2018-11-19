@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class Core {
     private Card card;
-    private Deck shards;//перечень осколков ядра. только формироваться должны из deck
     private static Deck deck = new Deck();//реестр всех карт - колода
 
     public Core(){
@@ -13,25 +12,30 @@ public class Core {
         c.setName(JOptionPane.showInputDialog("Назовите проект!"));
         card = c;
         System.out.println("");
-        shards = new Deck();
-        deck.add(card);
+        deck().add(card);
     }
     public Core(Card card){
         this.card = card;
-        this.shards = new Deck();
-        deck.add(card);
     }
     public Card getCard(){
         return card;
     }
-    public Deck getShards(){
-        return shards;
-    }
-    public void setShards(Card card){
-        //shards = deck.getShards(card);
-        shards.fireTableDataChanged();
-    }
-    public static Deck getDeck(){
+    public static Deck deck(){
         return deck;
+    }
+    //возвращает модель, содержащую осколки текущего ядра
+    public static Deck shards(Card card){
+        Deck shards = new Deck();
+        //перебираем колоду
+        int i = 0;
+        while (i < deck().getRowCount()){
+            //сравниваем поле id карты с полями parent колоды
+            if (card.getId() == (int)deck().getValueAt(i, 2)){
+                //добавляем в модель совпавшие осколки
+                shards.add(deck().getCard((int)deck().getValueAt(i, 0)));
+            }
+            i++;
+        }
+        return shards;
     }
 }
