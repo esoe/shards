@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class WidgetReestr extends JPanel{
+public class DeckWidget extends JPanel{
     public JFrame tmpFrame;
     Container lf;
     GridLayout layFrame = new GridLayout(1, 1, 0, 0);
@@ -16,10 +16,9 @@ public class WidgetReestr extends JPanel{
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
     public JScrollPane panelScrollShards;
-    //Core core;
-    ReestrListener listenR;
+    DeckListener listenR;
 
-    public WidgetReestr(){
+    public DeckWidget(){
         setLayout(layWidget);
         initCore();
         initPaneControls();
@@ -28,7 +27,7 @@ public class WidgetReestr extends JPanel{
     }
 
     public void initCore(){
-        listenR = new ReestrListener(tableShards);
+        listenR = new DeckListener(tableShards);
         Core.getDeck().addTableModelListener(listenR);
     }
     public void initPaneControls(){
@@ -69,7 +68,7 @@ public class WidgetReestr extends JPanel{
     }
 
     public void initFrame() {
-        tmpFrame = new JFrame("WidgetReestr");
+        tmpFrame = new JFrame("DeckWidget");
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
         tmpFrame.setDefaultCloseOperation(3);
@@ -81,8 +80,8 @@ public class WidgetReestr extends JPanel{
 
     public static void main( String[] args )
     {
-        System.out.println( "... запущен метод main класса WidgetReestr проекта shards  ... " );
-        new WidgetReestr().initFrame();
+        System.out.println( "... запущен метод main класса DeckWidget проекта shards  ... " );
+        new DeckWidget().initFrame();
     }
 
 }

@@ -116,7 +116,7 @@ public class WidgetCore extends JPanel {
     {
         System.out.println( "... запущен метод main класса WidgetCore проекта shards  ... " );
         new WidgetCore().initFrame();
-        new WidgetReestr().initFrame();
+        new DeckWidget().initFrame();
     }
 
 
