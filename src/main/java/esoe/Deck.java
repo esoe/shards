@@ -32,6 +32,10 @@ public class Deck extends AbstractTableModel {
     public String[] getHeader(){
         return header;
     }
+    //возвращает массив данных
+    public Object[][] getData(){
+        return data;
+    }
     //добавляет карту в колоду
     public void add(Card card){
         if (data == null){
@@ -92,5 +96,21 @@ public class Deck extends AbstractTableModel {
         }
 
         return card;
+    }
+    //возвращает модель осколков ядра, собранную из колоды
+    public void getShards( Card card){
+        Deck shards = new Deck();
+        int i = 0;
+        while (i < Core.getDeck().getRowCount()){
+            System.out.println(i+ " < " + Core.getDeck().getRowCount());
+            //сравниваем id карты с полями parent в колоде
+            if (card.getId() == (int)Core.getDeck().getData()[i][2]){
+                shards.add(Core.getDeck().getCard((int)Core.getDeck().getData()[i][0]));
+                System.out.println("добавляем в shards .. " + Core.getDeck().getCard((int)Core.getDeck().getData()[i][0]).getName());
+            }
+            i++;
+        }
+        fireTableDataChanged();
+
     }
 }

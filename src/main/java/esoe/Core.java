@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Core {
     private Card card;
-    private Deck shards;//перечень осколков ядра
+    private Deck shards;//перечень осколков ядра. только формироваться должны из deck
     private static Deck deck = new Deck();//реестр всех карт - колода
 
     public Core(){
@@ -26,6 +26,10 @@ public class Core {
     }
     public Deck getShards(){
         return shards;
+    }
+    public void setShards(Card card){
+        //shards = deck.getShards(card);
+        shards.fireTableDataChanged();
     }
     public static Deck getDeck(){
         return deck;

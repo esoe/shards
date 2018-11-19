@@ -55,8 +55,12 @@ public class WidgetCore extends JPanel {
                 //добавление осколка к ядру
                 String name = JOptionPane.showInputDialog("наименование осколка");
                 Card c = new Card(name, core.getCard().getId());
-                core.getShards().add(c);//добавили карту к осколкам
                 Core.getDeck().add(c);//добавили карту в колоду
+                core.getShards().add(c);//добавили карту к осколкам.
+                // а надо перерисовать таблицу с соколками, пересобрать из deck
+                //core.setShards(core.getCard());
+                //core.getShards().getShards(core.getCard());
+
             }
         });
         paneControls.add(addShard);
