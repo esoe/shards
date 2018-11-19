@@ -99,7 +99,7 @@ public class CoreWidget extends JPanel {
         this.add(paneShards);
 
     }
-
+    //подготовка отображения фрейма Core
     public void initFrame() {
         tmpFrame = new JFrame("Core" +  ": " );
         lf = tmpFrame.getContentPane();
@@ -110,14 +110,4 @@ public class CoreWidget extends JPanel {
         tmpFrame.setVisible(true);
         tmpFrame.add(this);
     }
-
-    public static void main( String[] args )
-    {
-        System.out.println( "... запущен метод main класса CoreWidget проекта shards  ... " );
-        new CoreWidget().initFrame();
-        new DeckWidget().initFrame();
-    }
-
-
 }
-

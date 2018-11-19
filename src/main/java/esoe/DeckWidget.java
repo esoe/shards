@@ -34,25 +34,22 @@ public class DeckWidget extends JPanel{
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
 
+        //открываем интерфейс работы с указанным пользователем ядром
         JButton goShard = new JButton("GO");
         goShard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("... нажата кнопка goShard");
-                Card card = new Card();
-                //в карту надо записать параметры выбранной пользователем карты
+                //считываем параметры выбранной пользователем строки
                 int id = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 0);
                 String name = (String)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 1);
                 int parent = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 2);
+                //создаем новую карту по указанным пользователем параметрам
+                Card card = new Card();
                 card.setID(id);
                 card.setName(name);
                 card.setParent(parent);
-                System.out.println("... выбрана строка: " + tableShards.getSelectedRow());
-                System.out.println("... id: " + id);
-                System.out.println("... name: " + name);
-                System.out.println("... parent: " + parent);
-                //передаем карту в новое ядро? надо ли?
-                Core core = new Core(card);
-                new CoreWidget(core).initFrame();
+                //открываем новый виджет ядра по новой карте
+                new CoreWidget(new Core(card)).initFrame();
             }
         });
         paneControls.add(goShard);

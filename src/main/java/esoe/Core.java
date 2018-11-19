@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Core {
     private Card card;
     private static Deck deck = new Deck();//реестр всех карт - колода
-
+    //создает новое ядро
     public Core(){
         Card c = new Card();
         c.setID(Identifier.getNext());
@@ -14,12 +14,15 @@ public class Core {
         System.out.println("");
         deck().add(card);
     }
+    //открывает ядро по заданой карте
     public Core(Card card){
         this.card = card;
     }
+    //возвращает карту ядра
     public Card getCard(){
         return card;
     }
+    //возвращает модель данных колоды
     public static Deck deck(){
         return deck;
     }
