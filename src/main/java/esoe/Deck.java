@@ -6,6 +6,7 @@ package esoe;
  */
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 public class Deck extends AbstractTableModel {
     private String[] header = {"id", "name", "parent"};
@@ -115,5 +116,22 @@ public class Deck extends AbstractTableModel {
         }
         fireTableDataChanged();
 
+    }
+    //возвращает упрощенную модель данных, только второй столбец "name"
+    public DefaultTableModel simple(){
+        DefaultTableModel dm = new DefaultTableModel();
+        dm.setColumnCount(1);
+        dm.setRowCount(this.getRowCount());
+        //перебираем строки модели
+        int i = 0;
+        while (i < this.getRowCount()){
+            //копируем данные в новую модель
+            dm.setValueAt(this.getData()[i][1], i, 0);
+            i++;
+        }
+        //устанавливаем заголовок столбца новой модели
+        Object[] head = {"name"};
+        dm.setColumnIdentifiers(head);
+        return dm;
     }
 }

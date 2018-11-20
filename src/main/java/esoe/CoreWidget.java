@@ -37,12 +37,12 @@ public class CoreWidget extends JPanel {
     }
     public void initCore(){
         core = new Core();//запустили пустое ядро
-        tableShards.setModel(Core.shards(core.getCard()));
+        tableShards.setModel(Core.shards(core.getCard()).simple());
 
     }
     public void initCore(Core core) {
         this.core = core;
-        tableShards.setModel(Core.shards(core.getCard()));
+        tableShards.setModel(Core.shards(core.getCard()).simple());
     }
 
     public void initPaneControls(){
@@ -56,9 +56,10 @@ public class CoreWidget extends JPanel {
                 //добавление осколка к ядру
                 String name = JOptionPane.showInputDialog("наименование осколка");
                 System.out.println("осколок назван: " + name);
-                Card c = new Card(name, core.getCard().getId());
+                Card c = new Card(name, core.getCard().getId());//содали новую карту
                 Core.deck().add(c);//добавили карту в колоду
-                tableShards.setModel(Core.shards(core.getCard()));
+                //tableShards.setModel(Core.shards(core.getCard()));//установили  таблице shards новую модель данных
+                tableShards.setModel(Core.shards(core.getCard()).simple());
 
             }
         });
@@ -93,7 +94,6 @@ public class CoreWidget extends JPanel {
     public void initPaneShards(){
         paneShards.setBackground(Color.blue);
         paneShards.setLayout(layPaneShards);
-        //передаю реестр, надо же получить список shards
         panelScrollShards = new JScrollPane(tableShards);
         paneShards.add(panelScrollShards, 0);
         this.add(paneShards);
