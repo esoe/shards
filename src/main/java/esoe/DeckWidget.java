@@ -6,31 +6,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DeckWidget extends JPanel{
-    public JFrame tmpFrame;
-    Container lf;
-    GridLayout layFrame = new GridLayout(1, 1, 0, 0);
-    BorderLayout layWidget = new BorderLayout();
-    GridLayout layPaneShards = new GridLayout(1, 1);
-    GridLayout layPaneControls = new GridLayout(1, 1);
-    public JPanel paneControls = new JPanel();
-    public JPanel paneShards = new JPanel();
-    public JTable tableShards = new JTable();
-    public JScrollPane panelScrollShards;
-    DeckListener listenR;
+    private JFrame tmpFrame;
+    private Container lf;
+    private GridLayout layFrame = new GridLayout(1, 1, 0, 0);
+    private BorderLayout layWidget = new BorderLayout();
+    private GridLayout layPaneShards = new GridLayout(1, 1);
+    private GridLayout layPaneControls = new GridLayout(1, 1);
+    private JPanel paneControls = new JPanel();
+    private JPanel paneShards = new JPanel();
+    private JTable tableShards = new JTable();
+    private JScrollPane panelScrollShards;
 
-    public DeckWidget(){
+    //создаем панельку в зависимости от передаваемой колоды (deck или shapes)
+    public DeckWidget(Deck deck){
         setLayout(layWidget);
-        initCore();
-        initPaneControls();
-        initPaneShards();
-
+        initCore(deck);
+        initPaneControls(deck);
+        initPaneShards(deck);
     }
 
-    public void initCore(){
-        listenR = new DeckListener(tableShards);
-        Core.deck().addTableModelListener(listenR);
+    public void initCore(Deck deck){
+        DeckListener listenR = new DeckListener(tableShards, deck);
+        deck.addTableModelListener(listenR);
     }
-    public void initPaneControls(){
+    public void initPaneControls(Deck deck){
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
 
@@ -45,13 +44,15 @@ public class DeckWidget extends JPanel{
                     int id = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 0);
                     String name = (String)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 1);
                     int parent = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 2);
+                    int shape = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 3);
                     //создаем новую карту по указанным пользователем параметрам
                     Card card = new Card();
                     card.setID(id);
                     card.setName(name);
                     card.setParent(parent);
+                    card.setShape(shape);
                     //открываем новый виджет ядра по новой карте
-                    new CoreWidget(new Core(card)).initFrame();
+                    new CoreWidget(new Core(card), deck).initFrame();
                 }else {
                     System.out.println("невозможно перейти к отсутствующим осколкам, создайте ядро!!");
                 }
@@ -65,7 +66,7 @@ public class DeckWidget extends JPanel{
         newShard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("... нажата кнопка newShard");
-                new CoreWidget().initFrame();
+                new CoreWidget(deck).initFrame();
 
             }
         });
@@ -73,18 +74,18 @@ public class DeckWidget extends JPanel{
 
         this.add(paneControls, layWidget.NORTH);
     }
-    public void initPaneShards(){
+    public void initPaneShards(Deck deck){
         paneShards.setBackground(Color.blue);
         paneShards.setLayout(layPaneShards);
-        tableShards.setModel(Core.deck());//нужно передавать можель осколка по названию или id
+        tableShards.setModel(deck);
         panelScrollShards = new JScrollPane(tableShards);
         paneShards.add(panelScrollShards, 0);
         this.add(paneShards, layWidget.CENTER);
 
     }
 
-    public void initFrame() {
-        tmpFrame = new JFrame("DeckWidget");
+    public void initFrame(String name) {
+        tmpFrame = new JFrame(name);
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
         tmpFrame.setDefaultCloseOperation(3);
@@ -97,7 +98,9 @@ public class DeckWidget extends JPanel{
     public static void main( String[] args )
     {
         System.out.println( "... запущен метод main класса DeckWidget проекта shards ..." );
-        new DeckWidget().initFrame();
+        new DeckWidget(Core.deck()).initFrame("DeckWidget");
+        new DeckWidget(Core.shapes()).initFrame("ShapeWidget");
+
     }
 
 }

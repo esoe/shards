@@ -8,14 +8,14 @@ public class DeckListener implements TableModelListener {
     Deck model;
     JTable tab;
 
-    DeckListener(JTable table) {
+    DeckListener(JTable table, Deck deck) {
         this.tab = table;
-        this.model = Core.deck();
+        this.model = deck;
     }
 
     public void tableChanged(TableModelEvent e) {
         if (e.getType() == 0) {
-            tab.setModel(Core.deck());
+            tab.setModel(model);
         }
 
     }

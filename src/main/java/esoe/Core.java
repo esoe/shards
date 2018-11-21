@@ -5,14 +5,17 @@ import javax.swing.*;
 public class Core {
     private Card card;
     private static Deck deck = new Deck();//реестр всех карт - колода
-    //создает новое ядро
-    public Core(){
+    private static Deck shapes = new Deck();//реестр всех доступных к использованию в проекте форм - shapes
+
+    //создает новое ядро в определенной колоде
+    public Core(Deck deck){
         Card c = new Card();
-        c.setID(Identifier.getNext());
+        c.setID(deck.index());
         c.setName(JOptionPane.showInputDialog("Назовите проект!"));
+        String s = JOptionPane.showInputDialog("Укажите № shape (0 по умолчанию)");
+        c.setShape(Integer.parseInt(s));
         card = c;
-        System.out.println("");
-        deck().add(card);
+        deck.add(card);
     }
     //открывает ядро по заданой карте
     public Core(Card card){
@@ -25,6 +28,10 @@ public class Core {
     //возвращает модель данных колоды
     public static Deck deck(){
         return deck;
+    }
+    //возвращает модель используемых форм в колоде
+    public static Deck shapes(){
+        return shapes;
     }
     //возвращает модель, содержащую осколки текущего ядра
     public static Deck shards(Card card){

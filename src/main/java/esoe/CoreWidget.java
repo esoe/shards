@@ -13,39 +13,39 @@ public class CoreWidget extends JPanel {
     public JFrame tmpFrame;
     Container lf;
     GridLayout layFrame = new GridLayout();
-    GridLayout layWidget = new GridLayout(1, 2);
+    GridLayout layWidget = new GridLayout(2, 1);
     GridLayout layPaneShards = new GridLayout(1, 1);
-    GridLayout layPaneControls = new GridLayout(4, 1);
+    GridLayout layPaneControls = new GridLayout(5, 1);
     public JPanel paneControls = new JPanel();
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
     public JScrollPane panelScrollShards;
     public Core core;
 
-    public CoreWidget(){
+    public CoreWidget(Deck deck){
         setLayout(layWidget);
-        initCore();
-        initPaneControls();
+        initCore(deck);
+        initPaneControls(deck);
         initPaneShards();
 
     }
-    public CoreWidget(Core core){
+    public CoreWidget(Core core, Deck deck){
         setLayout(layWidget);
-        initCore(core);
-        initPaneControls();
+        initCore(deck);
+        initPaneControls(deck);
         initPaneShards();
     }
-    public void initCore(){
-        core = new Core();//запустили пустое ядро
+    public void initCore(Deck deck){
+        core = new Core(deck);//запустили пустое ядро
         tableShards.setModel(Core.shards(core.getCard()).simple());
 
     }
-    public void initCore(Core core) {
+    public void initCore(Core core, Deck deck) {
         this.core = core;
         tableShards.setModel(Core.shards(core.getCard()).simple());
     }
 
-    public void initPaneControls(){
+    public void initPaneControls(Deck deck){
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
 
@@ -56,9 +56,10 @@ public class CoreWidget extends JPanel {
                 //добавление осколка к ядру
                 String name = JOptionPane.showInputDialog("наименование осколка");
                 System.out.println("осколок назван: " + name);
-                Card c = new Card(name, core.getCard().getId());//содали новую карту
-                Core.deck().add(c);//добавили карту в колоду
-                //tableShards.setModel(Core.shards(core.getCard()));//установили  таблице shards новую модель данных
+                String shape = JOptionPane.showInputDialog("Shape осколка(int)");
+                System.out.println("shape осколка: " + shape);
+                Card c = new Card(deck, name, core.getCard().getId(), Integer.parseInt(shape));//содали новую карту
+                deck.add(c);//добавили карту в колоду
                 tableShards.setModel(Core.shards(core.getCard()).simple());
 
             }
@@ -89,6 +90,9 @@ public class CoreWidget extends JPanel {
         });
         paneControls.add(goParent);
 
+        //добавляем комбо, для отображения shape
+        //JComboBox
+
         this.add(paneControls);
     }
     public void initPaneShards(){
@@ -101,7 +105,7 @@ public class CoreWidget extends JPanel {
     }
     //подготовка отображения фрейма Core
     public void initFrame() {
-        tmpFrame = new JFrame("Core" +  ": " );
+        tmpFrame = new JFrame("Core" +  ": id - "  + core.getCard().getId() + ", name: " + core.getCard().getName());
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
         tmpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

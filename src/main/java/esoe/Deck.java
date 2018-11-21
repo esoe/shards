@@ -9,10 +9,15 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Deck extends AbstractTableModel {
-    private String[] header = {"id", "name", "parent"};
+    private String[] header = {"id", "name", "parent", "shape"};
     private Object[][] data;
+    private int index = 0;
 
     public Deck(){}
+    public int index(){
+        index++;
+        return index;
+    }
     public int getColumnCount() {
         return header.length;
     }
@@ -32,10 +37,6 @@ public class Deck extends AbstractTableModel {
     public String getColumnName(int col){
         return header[col];
     }
-    //возвращает строку заголовков
-    public String[] getHeader(){
-        return header;
-    }
     //возвращает массив данных
     public Object[][] getData(){
         return data;
@@ -43,10 +44,11 @@ public class Deck extends AbstractTableModel {
     //добавляет карту в колоду
     public void add(Card card){
         if (data == null){
-            data = new Object[1][3];
+            data = new Object[1][getColumnCount()];
             data[0][0] = card.getId();
             data[0][1] = card.getName();
             data[0][2] = card.getParent();
+            data[0][3] = card.getShape();
         }else {
             //создаем объект d с дополнительной строкой
             Object[][] d = new Object[getRowCount()+1][getColumnCount()];
@@ -64,6 +66,7 @@ public class Deck extends AbstractTableModel {
             d[getRowCount()][0] = card.getId();
             d[getRowCount()][1] = card.getName();
             d[getRowCount()][2] = card.getParent();
+            d[getRowCount()][3] = card.getShape();
             //устанавливаем ссылку объекта data на новый объект d
             data = d;//должно поидее работать так
         }
@@ -85,6 +88,7 @@ public class Deck extends AbstractTableModel {
                     card.setID((int)data[i][0]);
                     card.setName((String)data[i][1]);
                     card.setParent((int)data[i][2]);
+                    card.setShape((int)data[i][3]);
                     find = false;
                 }
                 i++;
@@ -100,22 +104,6 @@ public class Deck extends AbstractTableModel {
         }
 
         return card;
-    }
-    //возвращает модель осколков ядра, собранную из колоды
-    public void getShards( Card card){
-        Deck shards = new Deck();
-        int i = 0;
-        while (i < Core.deck().getRowCount()){
-            System.out.println(i+ " < " + Core.deck().getRowCount());
-            //сравниваем id карты с полями parent в колоде
-            if (card.getId() == (int)Core.deck().getData()[i][2]){
-                shards.add(Core.deck().getCard((int)Core.deck().getData()[i][0]));
-                System.out.println("добавляем в shards .. " + Core.deck().getCard((int)Core.deck().getData()[i][0]).getName());
-            }
-            i++;
-        }
-        fireTableDataChanged();
-
     }
     //возвращает упрощенную модель данных, только второй столбец "name"
     public DefaultTableModel simple(){
