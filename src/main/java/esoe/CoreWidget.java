@@ -31,7 +31,7 @@ public class CoreWidget extends JPanel {
     }
     public CoreWidget(Core core, Deck deck){
         setLayout(layWidget);
-        initCore(deck);
+        initCore(core, deck);
         initPaneControls(deck);
         initPaneShards();
     }
@@ -56,9 +56,14 @@ public class CoreWidget extends JPanel {
                 //добавление осколка к ядру
                 String name = JOptionPane.showInputDialog("наименование осколка");
                 System.out.println("осколок назван: " + name);
-                String shape = JOptionPane.showInputDialog("Shape осколка(int)");
+                Object[] o = Core.shapes().list();
+                String shape = (String) JOptionPane.showInputDialog(
+                        paneControls, "Shape", "выбор shape",
+                        JOptionPane.QUESTION_MESSAGE, null,
+                        o,
+                        o[0]);
                 System.out.println("shape осколка: " + shape);
-                Card c = new Card(deck, name, core.getCard().getId(), Integer.parseInt(shape));//содали новую карту
+                Card c = new Card(deck, name, core.getCard().getId(), Core.shapes().getID(shape));//содали новую карту
                 deck.add(c);//добавили карту в колоду
                 tableShards.setModel(Core.shards(core.getCard()).simple());
 

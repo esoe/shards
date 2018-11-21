@@ -122,4 +122,31 @@ public class Deck extends AbstractTableModel {
         dm.setColumnIdentifiers(head);
         return dm;
     }
+    //возвращает список наименований
+    public Object[] list(){
+        Object[] o = new Object[getRowCount()+1];
+        if (getRowCount() != 0){
+            o[0] = "Default";
+            int i = 0;
+            while (i < getRowCount()){
+                o[i+1] = data[i][1];//столбец 1 - это наименования
+                i++;
+            }
+        }else {
+            o[0] = "Default";
+        }
+        return o;
+    }
+    //возвращает id по имени
+    public int getID(String name){
+        int id = 0;
+        int i = 0;
+        while (i < getRowCount()){
+            if (name == getData()[i][1]){
+                id = (int)getData()[i][0];
+            }
+            i++;
+        }
+        return id;
+    }
 }

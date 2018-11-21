@@ -51,7 +51,7 @@ public class DeckWidget extends JPanel{
                     card.setName(name);
                     card.setParent(parent);
                     card.setShape(shape);
-                    //открываем новый виджет ядра по новой карте
+                    //открываем виджет ядра по новой карте
                     new CoreWidget(new Core(card), deck).initFrame();
                 }else {
                     System.out.println("невозможно перейти к отсутствующим осколкам, создайте ядро!!");
