@@ -149,11 +149,7 @@ public class Deck extends AbstractTableModel {
         }
         return shards;
     }
-    /**
-     * возвращает колоду, включающую всех потомков от указанной карты
-     * нужно получить shards от card и по каждому осколку получить осколки
-     * и так пока не дойу до нулевых значений
-     */
+    //
     public Deck core(Card card){
         Deck core = new Deck(card.getName());
         Card c;
