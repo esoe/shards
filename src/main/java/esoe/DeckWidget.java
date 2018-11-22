@@ -63,6 +63,34 @@ public class DeckWidget extends JPanel{
         });
         paneControls.add(goShard);
 
+        //открываем core
+        JButton goCore = new JButton("Core");
+        goCore.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("... нажата кнопка goCore");
+                //проверяем, что колода не пуста
+                if (tableShards.getModel().getRowCount() != 0){
+                    //считываем параметры выбранной пользователем строки
+                    int id = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 0);
+                    String name = (String)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 1);
+                    int parent = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 2);
+                    int shape = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 3);
+                    //создаем новую карту по указанным пользователем параметрам
+                    Card card = new Card();
+                    card.setID(id);
+                    card.setName(name);
+                    card.setParent(parent);
+                    card.setShape(shape);
+                    //открываем виджет ядра по новой карте
+                    new DeckWidget(deck.core(card)).initFrame(card.getName());
+                }else {
+                    System.out.println("невозможно перейти к отсутствующим осколкам, создайте ядро!!");
+                }
+
+            }
+        });
+        paneControls.add(goCore);
+
         //создает новое корневое ядро с нулевым родителем, новый проект.
         JButton newShard = new JButton("NEW");
         newShard.addActionListener(new ActionListener() {
@@ -79,7 +107,6 @@ public class DeckWidget extends JPanel{
                 System.out.println("shape осколка: " + shape);
                 Card card = new Card(deck, name, parent, Core.shapes().getID(shape));
                 deck.add(card);//добавили карту в колоду
-                //new CardWidget(card, deck).initFrame();
             }
         });
         paneControls.add(newShard);

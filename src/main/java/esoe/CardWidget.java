@@ -33,8 +33,6 @@ public class CardWidget extends JPanel {
     public void initDeck(Card card, Deck deck){
         this.card = card;
         this.deck = deck;
-
-
     }
     public void initPaneControls(){
         paneControls.setBackground(Color.blue);
@@ -57,10 +55,29 @@ public class CardWidget extends JPanel {
                 Card c = new Card(deck, name, card.getId(), Core.shapes().getID(shape));//содали новую карту
                 deck.add(c);//добавили карту в колоду
                 tableShards.setModel(deck.shards(card).simple(1));
-
             }
         });
         paneControls.add(addShard);
+
+        JButton editCard = new JButton("editCard");
+        editCard.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Нажата кнопка editCard");
+                //новое наименование name
+                //новая форма shape
+                //родитель остается прежним parent
+                //индекс остается прежним id
+                //заменяем поля карты в колоде на новые значения
+                /**
+                 * смена формы може повлиять на состав осколков ядра, возможно стоит обнулять осколки
+                 * или вести диалог с пользователем до окончания пересмотра всех осколков
+                 *
+                 *
+                 * если форма (shape) не меняется, то сложностей с изменением названия осколка нет.
+                 */
+            }
+        });
+        paneControls.add(editCard);
 
         JButton delAttr = new JButton("Dell");
         delAttr.addActionListener(new ActionListener() {
@@ -69,14 +86,6 @@ public class CardWidget extends JPanel {
             }
         });
         paneControls.add(delAttr);
-
-        JButton editCore = new JButton("editCore");
-        editCore.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Нажата кнопка editCore");
-            }
-        });
-        paneControls.add(editCore);
 
         JButton goParent = new JButton("GO to parent");
         goParent.addActionListener(new ActionListener() {

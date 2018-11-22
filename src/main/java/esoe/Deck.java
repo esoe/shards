@@ -149,6 +149,39 @@ public class Deck extends AbstractTableModel {
         }
         return shards;
     }
+    /**
+     * возвращает колоду, включающую всех потомков от указанной карты
+     * нужно получить shards от card и по каждому осколку получить осколки
+     * и так пока не дойу до нулевых значений
+     */
+    public Deck core(Card card){
+        Deck core = new Deck(card.getName());
+        Card c;
+        //переписываем в core значения shards
+        int i = 0;
+        while (i < shards(card).getRowCount()){
+            c = shards(card).getCard((int)shards(card).getData()[i][0]);
+            core.add(c);
+            i++;
+        }
+        //перебираем core в поисках осколков
+        i = 0;
+        //количество строк динамически меняется при нахождении новых осколков
+        while (i < core.getRowCount()){
+            //берем карту из списка core. по порядку
+            c = core.getCard((int)core.getData()[i][0]);
+            //записываем shards этой карты в core
+            int j = 0;
+            Card s;
+            while (j < shards(c).getRowCount()){
+                s = shards(c).getCard((int)shards(c).getData()[j][0]);
+                core.add(s);
+                j++;
+            }
+            i++;
+        }
+        return  core;
+    }
     //возвращает список наименований
     public Object[] list(){
         Object[] o = new Object[getRowCount()+1];

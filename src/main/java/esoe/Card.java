@@ -13,7 +13,6 @@ public class Card {
         setParent(parent);
         setShape(shape);
     }
-
     public void setName(String name){
         this.name = name;
     }
