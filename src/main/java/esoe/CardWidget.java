@@ -38,6 +38,7 @@ public class CardWidget extends JPanel {
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
 
+
         JButton addShard = new JButton("Add");
         addShard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
