@@ -3,6 +3,12 @@ package esoe;
  * модель данных в которой хранятся карточки осколков
  * в которой ведется поиск осколков, для нужд системы
  * "колода или картотека"
+ * модель данных для deck
+ * модель данных для shapes
+ * возвращает значения:
+ * shard (один осколок - строка в модели)
+ * shards (перечень осколков от одного родитля),
+ * core (перечень осколков от родителя со всеми вложениями)
  */
 
 import javax.swing.table.AbstractTableModel;
@@ -11,9 +17,15 @@ import javax.swing.table.DefaultTableModel;
 public class Deck extends AbstractTableModel {
     private String[] header = {"id", "name", "parent", "shape"};
     private Object[][] data;
+    private String name;
     private int index = 0;
 
-    public Deck(){}
+    public Deck(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return this.name;
+    }
     public int index(){
         index++;
         return index;
@@ -73,7 +85,7 @@ public class Deck extends AbstractTableModel {
         //сообщаем слушателю модели об изменении данных, для вызова обработчика события
         fireTableDataChanged();
     }
-    //возвращает карту из колоды по индексу
+    //возвращает карту из колоды (строку) по индексу
     public Card getCard(int id){
         Card card = new Card();
         //проверяем, наличие записей в колоде
@@ -105,8 +117,8 @@ public class Deck extends AbstractTableModel {
 
         return card;
     }
-    //возвращает упрощенную модель данных, только второй столбец "name"
-    public DefaultTableModel simple(){
+    //возвращает упрощенную модель данных, один столбец col
+    public DefaultTableModel simple(int col){
         DefaultTableModel dm = new DefaultTableModel();
         dm.setColumnCount(1);
         dm.setRowCount(this.getRowCount());
@@ -114,13 +126,28 @@ public class Deck extends AbstractTableModel {
         int i = 0;
         while (i < this.getRowCount()){
             //копируем данные в новую модель
-            dm.setValueAt(this.getData()[i][1], i, 0);
+            dm.setValueAt(this.getData()[i][col], i, 0);
             i++;
         }
         //устанавливаем заголовок столбца новой модели
         Object[] head = {"name"};
         dm.setColumnIdentifiers(head);
         return dm;
+    }
+    //
+    public Deck shards(Card card){
+        Deck shards = new Deck(card.getName());
+        //перебираем колоду
+        int i = 0;
+        while (i < getRowCount()){
+            //сравниваем поле id карты с полями parent колоды
+            if (card.getId() == (int)getValueAt(i, 2)){
+                //добавляем в модель совпавшие осколки
+                shards.add(getCard((int)getValueAt(i, 0)));
+            }
+            i++;
+        }
+        return shards;
     }
     //возвращает список наименований
     public Object[] list(){

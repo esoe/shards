@@ -16,20 +16,22 @@ public class DeckWidget extends JPanel{
     private JPanel paneShards = new JPanel();
     private JTable tableShards = new JTable();
     private JScrollPane panelScrollShards;
+    private Deck deck;
 
     //создаем панельку в зависимости от передаваемой колоды (deck или shapes)
     public DeckWidget(Deck deck){
         setLayout(layWidget);
-        initCore(deck);
-        initPaneControls(deck);
-        initPaneShards(deck);
+        initDeck(deck);
+        initPaneControls();
+        initPaneShards();
     }
 
-    public void initCore(Deck deck){
-        DeckListener listenR = new DeckListener(tableShards, deck);
-        deck.addTableModelListener(listenR);
+    public void initDeck(Deck deck){
+        this.deck = deck;
+        DeckListener listenR = new DeckListener(tableShards, this.deck);
+        this.deck.addTableModelListener(listenR);
     }
-    public void initPaneControls(Deck deck){
+    public void initPaneControls(){
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
 
@@ -52,7 +54,7 @@ public class DeckWidget extends JPanel{
                     card.setParent(parent);
                     card.setShape(shape);
                     //открываем виджет ядра по новой карте
-                    new CoreWidget(new Core(card), deck).initFrame();
+                    new CardWidget(card, deck).initFrame();
                 }else {
                     System.out.println("невозможно перейти к отсутствующим осколкам, создайте ядро!!");
                 }
@@ -66,15 +68,25 @@ public class DeckWidget extends JPanel{
         newShard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("... нажата кнопка newShard");
-                new CoreWidget(deck).initFrame();
-
+                String name = JOptionPane.showInputDialog("наименование осколка");
+                int parent = 0;
+                Object[] o = Core.shapes().list();
+                String shape = (String) JOptionPane.showInputDialog(
+                        null, "Shape", "выбор shape",
+                        JOptionPane.QUESTION_MESSAGE, null,
+                        o,
+                        o[0]);
+                System.out.println("shape осколка: " + shape);
+                Card card = new Card(deck, name, parent, Core.shapes().getID(shape));
+                deck.add(card);//добавили карту в колоду
+                //new CardWidget(card, deck).initFrame();
             }
         });
         paneControls.add(newShard);
 
         this.add(paneControls, layWidget.NORTH);
     }
-    public void initPaneShards(Deck deck){
+    public void initPaneShards(){
         paneShards.setBackground(Color.blue);
         paneShards.setLayout(layPaneShards);
         tableShards.setModel(deck);
@@ -94,13 +106,4 @@ public class DeckWidget extends JPanel{
         tmpFrame.setVisible(true);
         tmpFrame.add(this);
     }
-
-    public static void main( String[] args )
-    {
-        System.out.println( "... запущен метод main класса DeckWidget проекта shards ..." );
-        new DeckWidget(Core.deck()).initFrame("DeckWidget");
-        new DeckWidget(Core.shapes()).initFrame("ShapeWidget");
-
-    }
-
 }

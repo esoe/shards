@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
  * панелька для отображения данных Shard
  *
  */
-public class CoreWidget extends JPanel {
+public class CardWidget extends JPanel {
     public JFrame tmpFrame;
     Container lf;
     GridLayout layFrame = new GridLayout();
@@ -20,32 +20,23 @@ public class CoreWidget extends JPanel {
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
     public JScrollPane panelScrollShards;
-    public Core core;
+    private Card card;
+    private Deck deck;
 
-    public CoreWidget(Deck deck){
+    public CardWidget(Card card, Deck deck){
         setLayout(layWidget);
-        initCore(deck);
-        initPaneControls(deck);
-        initPaneShards();
-
-    }
-    public CoreWidget(Core core, Deck deck){
-        setLayout(layWidget);
-        initCore(core, deck);
-        initPaneControls(deck);
+        initDeck(card, deck);
+        initPaneControls();
         initPaneShards();
     }
-    public void initCore(Deck deck){
-        core = new Core(deck);//запустили пустое ядро
-        tableShards.setModel(Core.shards(core.getCard()).simple());
+    //косяк тут, не понятно по какой карте таблица строится
+    public void initDeck(Card card, Deck deck){
+        this.card = card;
+        this.deck = deck;
+
 
     }
-    public void initCore(Core core, Deck deck) {
-        this.core = core;
-        tableShards.setModel(Core.shards(core.getCard()).simple());
-    }
-
-    public void initPaneControls(Deck deck){
+    public void initPaneControls(){
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
 
@@ -63,9 +54,9 @@ public class CoreWidget extends JPanel {
                         o,
                         o[0]);
                 System.out.println("shape осколка: " + shape);
-                Card c = new Card(deck, name, core.getCard().getId(), Core.shapes().getID(shape));//содали новую карту
+                Card c = new Card(deck, name, card.getId(), Core.shapes().getID(shape));//содали новую карту
                 deck.add(c);//добавили карту в колоду
-                tableShards.setModel(Core.shards(core.getCard()).simple());
+                tableShards.setModel(deck.shards(card).simple(1));
 
             }
         });
@@ -98,19 +89,20 @@ public class CoreWidget extends JPanel {
         //добавляем комбо, для отображения shape
         //JComboBox
 
-        this.add(paneControls);
+        add(paneControls);
     }
     public void initPaneShards(){
         paneShards.setBackground(Color.blue);
         paneShards.setLayout(layPaneShards);
+        tableShards.setModel(deck.shards(card).simple(1));
         panelScrollShards = new JScrollPane(tableShards);
         paneShards.add(panelScrollShards, 0);
-        this.add(paneShards);
+        add(paneShards);
 
     }
     //подготовка отображения фрейма Core
     public void initFrame() {
-        tmpFrame = new JFrame("Core" +  ": id - "  + core.getCard().getId() + ", name: " + core.getCard().getName());
+        tmpFrame = new JFrame("Core" +  ": id - "  + card.getId() + ", name: " + card.getName());
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
         tmpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
