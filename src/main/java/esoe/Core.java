@@ -6,6 +6,7 @@ public class Core {
     private static Deck archive;//стоит ли сохранять удаленные осколки?
 
     public Core(){}
+
     public static Deck deck(){
         return deck;
     }
