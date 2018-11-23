@@ -178,6 +178,10 @@ public class Deck extends AbstractTableModel {
         }
         return  core;
     }
+    //возвращает корневые карты (parent = 0)
+    public Deck root(){
+        //
+    }
     //возвращает список наименований
     public Object[] list(){
         Object[] o = new Object[getRowCount()+1];
