@@ -18,4 +18,5 @@ public class Core {
         new DeckWidget(deck()).initFrame("DeckWidget");
         new DeckWidget(shapes()).initFrame("ShapeWidget");
     }
+    //
 }
