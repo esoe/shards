@@ -91,6 +91,28 @@ public class DeckWidget extends JPanel{
         });
         paneControls.add(goCore);
 
+        //удаление карты
+        JButton btnDel = new JButton("del");
+        btnDel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("... нажата кнопка btnDel");
+                //считываем параметры выбранной пользователем строки
+                int id = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 0);
+                String name = (String)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 1);
+                int parent = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 2);
+                int shape = (int)tableShards.getModel().getValueAt(tableShards.getSelectedRow(), 3);
+                //создаем новую карту по указанным пользователем параметрам
+                Card card = new Card();
+                card.setID(id);
+                card.setName(name);
+                card.setParent(parent);
+                card.setShape(shape);
+                //удаляем карту из колоды
+                deck.del(card);
+                }
+        });
+        paneControls.add(btnDel);
+
         //создает новое корневое ядро с нулевым родителем, новый проект.
         JButton newShard = new JButton("NEW");
         newShard.addActionListener(new ActionListener() {
@@ -98,7 +120,7 @@ public class DeckWidget extends JPanel{
                 System.out.println("... нажата кнопка newShard");
                 String name = JOptionPane.showInputDialog("наименование осколка");
                 int parent = 0;
-                Object[] o = Core.shapes().list();
+                Object[] o = Core.shapes().root().list();
                 String shape = (String) JOptionPane.showInputDialog(
                         null, "Shape", "выбор shape",
                         JOptionPane.QUESTION_MESSAGE, null,

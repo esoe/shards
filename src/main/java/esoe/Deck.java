@@ -9,6 +9,7 @@ package esoe;
  * shard (один осколок - строка в модели)
  * shards (перечень осколков от одного родитля),
  * core (перечень осколков от родителя со всеми вложениями)
+ * shape (форма осколка)
  */
 
 import javax.swing.table.AbstractTableModel;
@@ -69,7 +70,7 @@ public class Deck extends AbstractTableModel {
             while (i < getRowCount()){
                 int j = 0;
                 while (j < getColumnCount()){
-                    d[i][j] = data[i][j];
+                    d[i][j] = getData()[i][j];
                     j++;
                 }
                 i++;
@@ -83,6 +84,33 @@ public class Deck extends AbstractTableModel {
             data = d;//должно поидее работать так
         }
         //сообщаем слушателю модели об изменении данных, для вызова обработчика события
+        fireTableDataChanged();
+    }
+    //копируем ядро - core  в колоду. card - родитель для новых компонентов
+    public void addCore(Card card, Deck core){
+
+    }
+    //копируем осколки - shards в колоду, как потомки card
+    public void addShards(Card card, Deck shards){
+
+    }
+    //удаление карты из колоды
+    public void del(Card card){
+        Object[][] d = new Object[getRowCount()-1][getColumnCount()];
+        int i = 0;
+        int n = 0;
+        while (i < getRowCount()){
+            if (card.getId() != (int)getData()[i][0]){
+                int j = 0;
+                while (j < getColumnCount()){
+                    d[n][j] = getData()[i][j];
+                    j++;
+                }
+                n++;
+            }
+            i++;
+        }
+        data = d;
         fireTableDataChanged();
     }
     //возвращает карту из колоды (строку) по индексу
@@ -178,9 +206,17 @@ public class Deck extends AbstractTableModel {
         }
         return  core;
     }
-    //возвращает корневые карты (parent = 0)
+    //возвращает корневые карты (parent = 0), для отображения shapes в комбобокс
     public Deck root(){
-        //
+        Deck shapes = new Deck("root");
+        int i = 0;
+        while (i < getRowCount()){
+            if ((int)getData()[i][2] == 0){
+                shapes.add(getCard((int)getData()[i][0]));
+            }
+            i++;
+        }
+        return shapes;
     }
     //возвращает список наименований
     public Object[] list(){

@@ -1,6 +1,8 @@
 package esoe;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,9 +15,13 @@ public class CardWidget extends JPanel {
     public JFrame tmpFrame;
     Container lf;
     GridLayout layFrame = new GridLayout();
-    GridLayout layWidget = new GridLayout(2, 1);
+    GridLayout layWidget = new GridLayout(3, 1);
+    GridLayout layPaneEdit = new GridLayout(3, 1);
     GridLayout layPaneShards = new GridLayout(1, 1);
-    GridLayout layPaneControls = new GridLayout(5, 1);
+    GridLayout layPaneControls = new GridLayout(3, 2);
+    public JPanel paneEdit = new JPanel();
+    public JTextField fieldEditCard  = new JTextField();
+    public JComboBox comboShape;
     public JPanel paneControls = new JPanel();
     public JPanel paneShards = new JPanel();
     public JTable tableShards = new JTable();
@@ -26,6 +32,7 @@ public class CardWidget extends JPanel {
     public CardWidget(Card card, Deck deck){
         setLayout(layWidget);
         initDeck(card, deck);
+        initPaneEdit();
         initPaneControls();
         initPaneShards();
     }
@@ -34,10 +41,70 @@ public class CardWidget extends JPanel {
         this.card = card;
         this.deck = deck;
     }
+    //
+    public void initPaneEdit(){
+        paneEdit.setBackground(Color.blue);
+        paneEdit.setLayout(layPaneEdit);
+
+        //настройка текстового поля
+        fieldEditCard.setText(card.getName());
+        //слушаем именения в fieldEditCard
+        fieldEditCard.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                saveChanges();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                saveChanges();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                saveChanges();
+            }
+            //сохраняем изменения в модели
+            public void saveChanges(){
+                String name = fieldEditCard.getText();
+                String shape = comboShape.getSelectedItem().toString();
+                Card newCard = new Card();
+                newCard.setID(card.getId());
+                newCard.setName(name);
+                newCard.setParent(card.getParent());
+                newCard.setShape(Core.shapes().getID(shape));
+                //удаляем старую карту
+                deck.del(card);
+                //обавляем новую карту
+                deck.add(newCard);
+                card = newCard;
+                setupFrame();
+            }
+        });
+        paneEdit.add(fieldEditCard);
+
+        //настройка комбо - shape
+        comboShape = new JComboBox(Core.shapes().root().list());
+        paneEdit.add(comboShape);
+
+        JButton btnImportShapes = new JButton("Import Shapes");
+        btnImportShapes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Нажата кнопка btnImportShapes");
+                //копируем осколки выбранной shape в колоду
+                //Core.shapes().core(Core.shapes().getCard(card.getShape()));//объект копирования, тип Deck();
+                /**
+                 * поменяются id - карт
+                 * у осколков верхнего уровня поменяется parent, станет текущая карта
+                 * о остальных осколков parent подтянется в зависимости от назначеных id их родителям
+                 */
+
+
+            }
+        });
+        paneEdit.add(btnImportShapes);
+
+        add(paneEdit);
+
+    }
     public void initPaneControls(){
         paneControls.setBackground(Color.blue);
         paneControls.setLayout(layPaneControls);
-
 
         JButton addShard = new JButton("Add");
         addShard.addActionListener(new ActionListener() {
@@ -46,7 +113,7 @@ public class CardWidget extends JPanel {
                 //добавление осколка к ядру
                 String name = JOptionPane.showInputDialog("наименование осколка");
                 System.out.println("осколок назван: " + name);
-                Object[] o = Core.shapes().list();
+                Object[] o = Core.shapes().root().list();
                 String shape = (String) JOptionPane.showInputDialog(
                         paneControls, "Shape", "выбор shape",
                         JOptionPane.QUESTION_MESSAGE, null,
@@ -96,9 +163,6 @@ public class CardWidget extends JPanel {
         });
         paneControls.add(goParent);
 
-        //добавляем комбо, для отображения shape
-        //JComboBox
-
         add(paneControls);
     }
     public void initPaneShards(){
@@ -110,9 +174,14 @@ public class CardWidget extends JPanel {
         add(paneShards);
 
     }
+    //настройка отображения на форме отображаемой карты
+    public void setupFrame(){
+        tmpFrame.setTitle("Desk - "+ deck.getName() + " : id - "  + card.getId() + " : name - " + card.getName());
+    }
+
     //подготовка отображения фрейма Core
     public void initFrame() {
-        tmpFrame = new JFrame("Core" +  ": id - "  + card.getId() + ", name: " + card.getName());
+        tmpFrame = new JFrame("Desk - "+ deck.getName() + " : id - "  + card.getId() + " : name - " + card.getName());
         lf = tmpFrame.getContentPane();
         tmpFrame.setSize(450, 300);
         tmpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
