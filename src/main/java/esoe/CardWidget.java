@@ -86,15 +86,15 @@ public class CardWidget extends JPanel {
         btnImportShapes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Нажата кнопка btnImportShapes");
+                String s = (String)comboShape.getSelectedItem();
+                int id = 0;
+                Card c = new Card();
                 //копируем осколки выбранной shape в колоду
-                //Core.shapes().core(Core.shapes().getCard(card.getShape()));//объект копирования, тип Deck();
-                /**
-                 * поменяются id - карт
-                 * у осколков верхнего уровня поменяется parent, станет текущая карта
-                 * о остальных осколков parent подтянется в зависимости от назначеных id их родителям
-                 */
-
-
+                if (s != "Default"){
+                    id = Core.shapes().getID(s);
+                    c = Core.shapes().getCard(id);
+                    deck.addCore(card, Core.shapes().core(c));//аргументы - карта, указанная в комбо
+                }
             }
         });
         paneEdit.add(btnImportShapes);

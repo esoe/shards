@@ -56,43 +56,90 @@ public class Deck extends AbstractTableModel {
     }
     //добавляет карту в колоду
     public void add(Card card){
-        if (data == null){
-            data = new Object[1][getColumnCount()];
-            data[0][0] = card.getId();
-            data[0][1] = card.getName();
-            data[0][2] = card.getParent();
-            data[0][3] = card.getShape();
-        }else {
-            //создаем объект d с дополнительной строкой
-            Object[][] d = new Object[getRowCount()+1][getColumnCount()];
-            //переносим данные data в объект d
-            int i = 0;
-            while (i < getRowCount()){
-                int j = 0;
-                while (j < getColumnCount()){
-                    d[i][j] = getData()[i][j];
-                    j++;
-                }
-                i++;
+        //создаем объект d с дополнительной строкой
+        Object[][] d = new Object[getRowCount()+1][getColumnCount()];
+        //переносим данные data в объект d
+        int i = 0;
+        while (i < getRowCount()){
+            int j = 0;
+            while (j < getColumnCount()){
+                d[i][j] = getData()[i][j];
+                j++;
             }
-            //дописываем в объект d новую строку card
-            d[getRowCount()][0] = card.getId();
-            d[getRowCount()][1] = card.getName();
-            d[getRowCount()][2] = card.getParent();
-            d[getRowCount()][3] = card.getShape();
-            //устанавливаем ссылку объекта data на новый объект d
-            data = d;//должно поидее работать так
+            i++;
         }
+        //дописываем в объект d новую строку card
+        d[getRowCount()][0] = card.getId();
+        d[getRowCount()][1] = card.getName();
+        d[getRowCount()][2] = card.getParent();
+        d[getRowCount()][3] = card.getShape();
+        //устанавливаем ссылку объекта data на новый объект d
+        data = d;//должно поидее работать так
         //сообщаем слушателю модели об изменении данных, для вызова обработчика события
         fireTableDataChanged();
     }
     //копируем ядро - core  в колоду. card - родитель для новых компонентов
     public void addCore(Card card, Deck core){
-
+        //временный стек, для обработки данных core
+        Deck steck = new Deck("буфер");
+        //листаем core, назначаем новый id
+        int i = 0;
+        while (i < core.getRowCount()){
+            System.out.println("назначаем id -->>> (i < core.getRowCount()) итерации"+ i);
+            //подготавливаем карту для записи в колоду
+            Card buf = new Card();
+            buf.setID(index());// новый id
+            buf.setName(core.getCard((int)core.getData()[i][0]).getName());//не меняем
+            buf.setParent(card.getId());// родителем назначаем карту, к которой копируем ядро
+            buf.setShape(core.getCard((int)core.getData()[i][0]).getShape());//не меняем
+            //добавляем карту в стек
+            steck.add(buf);
+            i++;
+        }
+        //листаем core, назначаем новых parent, добавляем в deck
+        i = 0;
+        while (i < core.getRowCount()){
+            System.out.println("назначаем parent -->>> (i < core.getRowCount()) итерации"+ i);
+            Card buf = new Card();
+            buf.setID(steck.getCard((int)steck.getData()[i][0]).getId());// не меняем
+            buf.setName(steck.getCard((int)steck.getData()[i][0]).getName());//не меняем
+            buf.setShape(steck.getCard((int)steck.getData()[i][0]).getShape());//не меняем
+            //определяем parent
+            int parent = 0;
+            int p = core.getCard((int)core.getData()[i][0]).getParent();//id родителя в core
+            //перебираем core
+            int j = 0;
+            while (j < core.getRowCount()){
+                System.out.println("ищем  parent -->>> (j < core.getRowCount()) итерации"+ i);
+                //если дошли до карты родителя в core
+                if (p == core.getCard((int)core.getData()[j][0]).getId()){
+                    //узнаем значение parent в steck
+                    parent = steck.getCard((int)steck.getData()[j][0]).getParent();
+                }else {
+                    parent = card.getId();
+                }
+                j++;
+            }
+            buf.setParent(parent);//назначаем нового родителя в буфере
+            //добавляем буферную карту в deck
+            add(buf);
+            i++;
+        }
+        fireTableDataChanged();
     }
     //копируем осколки - shards в колоду, как потомки card
     public void addShards(Card card, Deck shards){
-
+        //листаем core
+        int i = 0;
+        while (i < shards.getRowCount()){
+            //подготавливаем карту для записи в колоду
+            Card buf = new Card();
+            buf.setID(index());// новый id
+            buf.setName(shards.getCard((int)shards.getData()[i][0]).getName());//не меняем
+            buf.setParent(card.getId());// родителем назначаем карту, к которой копируем ядро
+            buf.setShape(shards.getCard((int)shards.getData()[i][0]).getShape());//не меняем
+            add(buf);
+        }
     }
     //удаление карты из колоды
     public void del(Card card){
