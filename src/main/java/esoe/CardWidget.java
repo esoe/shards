@@ -86,12 +86,12 @@ public class CardWidget extends JPanel {
         btnImportShapes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Нажата кнопка btnImportShapes");
-                String s = (String)comboShape.getSelectedItem();
-                int id = 0;
-                Card c = new Card();
+                String shape = (String)comboShape.getSelectedItem();
+                int id;
+                Card c;
                 //копируем осколки выбранной shape в колоду
-                if (s != "Default"){
-                    id = Core.shapes().getID(s);
+                if (shape != "Default"){
+                    id = Core.shapes().getID(shape);
                     c = Core.shapes().getCard(id);
                     deck.addCore(card, Core.shapes().core(c));//аргументы - карта, указанная в комбо
                 }

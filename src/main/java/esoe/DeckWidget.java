@@ -129,6 +129,12 @@ public class DeckWidget extends JPanel{
                 System.out.println("shape осколка: " + shape);
                 Card card = new Card(deck, name, parent, Core.shapes().getID(shape));
                 deck.add(card);//добавили карту в колоду
+                //добавляем компоненты назначенной формы
+                if (shape != "Default"){
+                    int id = Core.shapes().getID(shape);
+                    Card c = Core.shapes().getCard(id);
+                    deck.addCore(card, Core.shapes().core(c));
+                }
             }
         });
         paneControls.add(newShard);

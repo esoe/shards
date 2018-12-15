@@ -85,7 +85,6 @@ public class Deck extends AbstractTableModel {
         //листаем core, назначаем новый id
         int i = 0;
         while (i < core.getRowCount()){
-            System.out.println("назначаем id -->>> (i < core.getRowCount()) итерации"+ i);
             //подготавливаем карту для записи в колоду
             Card buf = new Card();
             buf.setID(index());// новый id
@@ -99,7 +98,6 @@ public class Deck extends AbstractTableModel {
         //листаем core, назначаем новых parent, добавляем в deck
         i = 0;
         while (i < core.getRowCount()){
-            System.out.println("назначаем parent -->>> (i < core.getRowCount()) итерации"+ i);
             Card buf = new Card();
             buf.setID(steck.getCard((int)steck.getData()[i][0]).getId());// не меняем
             buf.setName(steck.getCard((int)steck.getData()[i][0]).getName());//не меняем
@@ -110,7 +108,6 @@ public class Deck extends AbstractTableModel {
             //перебираем core
             int j = 0;
             while (j < core.getRowCount()){
-                System.out.println("ищем  parent -->>> (j < core.getRowCount()) итерации"+ i);
                 //если дошли до карты родителя в core
                 if (p == core.getCard((int)core.getData()[j][0]).getId()){
                     //узнаем значение parent в steck
