@@ -1,4 +1,6 @@
-package esoe;
+package esoe.build;
+
+import esoe.Deck;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

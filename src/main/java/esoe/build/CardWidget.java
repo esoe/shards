@@ -1,4 +1,8 @@
-package esoe;
+package esoe.build;
+
+import esoe.Card;
+import esoe.Core;
+import esoe.Deck;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

@@ -1,5 +1,7 @@
 package esoe;
 
+import esoe.build.DeckWidget;
+
 public class Core {
     private static Deck deck = new Deck("deck");//реестр всех карт - колода
     private static Deck shapes = new Deck("shapes");//реестр всех доступных к использованию в проекте форм - shapes

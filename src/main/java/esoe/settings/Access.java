@@ -1,6 +1,6 @@
 package esoe.settings;
 
-import esoe.LoginWidget;
+import esoe.build.LoginWidget;
 
 /**
  * класс обеспечения доступа к базе данных

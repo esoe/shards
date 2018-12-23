@@ -1,4 +1,4 @@
-package esoe;
+package esoe.build;
 
 import esoe.settings.Access;
 
