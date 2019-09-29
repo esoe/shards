@@ -17,7 +17,6 @@ public class Core {
     }
     public static void main( String[] args ){
         System.out.println( "... запущен метод main класса Core проекта shards ..." );
-        //чтото поменял
         new DeckWidget(deck()).initFrame("DeckWidget");
         new DeckWidget(shapes()).initFrame("ShapeWidget");
     }
